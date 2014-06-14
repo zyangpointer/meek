@@ -1,11 +1,20 @@
 #include "Blob.h"
 
-
-Blob::Blob()
+namespace MeekCore
 {
-}
+
+	Blob::Blob()
+	{
+	}
 
 
-Blob::~Blob()
-{
+	Blob::~Blob()
+	{
+	}
+
+	Blob *lookup(const unsigned char *sha1)
+	{
+		return 0;
+	}
+
 }
