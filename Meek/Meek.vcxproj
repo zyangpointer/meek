@@ -79,14 +79,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Blob.h" />
+    <ClInclude Include="Buffer.h" />
     <ClInclude Include="Commands.h" />
     <ClInclude Include="Cache.h" />
     <ClInclude Include="Commit.h" />
+    <ClInclude Include="Common.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectDatabase.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Blob.cpp" />
+    <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="Cache.cpp" />
     <ClCompile Include="Commit.cpp" />
     <ClCompile Include="Main.cpp" />

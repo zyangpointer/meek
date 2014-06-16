@@ -1,8 +1,9 @@
+//Zheng Yang 2014
+
 #pragma once
 
 namespace MeekCore
 {
-
 	class ObjectDatabase
 	{
 	public:
@@ -10,7 +11,9 @@ namespace MeekCore
 		~ObjectDatabase();
 
 	public: 
-		int Init();
+		static int Init();
+		static int Add();
+		static int Commit();
 	};
 
 }
