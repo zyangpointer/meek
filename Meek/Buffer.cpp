@@ -1,13 +1,12 @@
 #include "Buffer.h"
+#include "Utils.h"
 
 namespace MeekCore
 {
-
 	Buffer::Buffer()
 	{
 	}
-
-
+	
 	Buffer::~Buffer()
 	{
 		if (this->ptr)
@@ -15,12 +14,82 @@ namespace MeekCore
 			delete ptr;
 			ptr = NULL;
 		}
-			
+	}
+
+	void Buffer::init(size_t initial_size)
+	{
+		this->asize = 0;
+		this->size = 0;
+		this->ptr = InitialBuffer;
+
+		if (initial_size)
+			growBuffer(initial_size);
+	}
+
+	int Buffer::growBuffer(size_t target_size)
+	{
+		return tryGrowBuffer(target_size, true, true);
+	}
+
+	int Buffer::tryGrowBuffer(
+		size_t target_size, bool mark_oom, bool preserve_external)
+	{
+		char *new_ptr;
+		size_t new_size;
+
+		if (this->ptr == BufferCom)
+			return -1;
+
+		if (!target_size)
+			target_size = size;
+
+		if (target_size <= asize)
+			return 0;
+
+		if (asize == 0) {
+			new_size = target_size;
+			new_ptr = NULL;
+		}
+		else {
+			new_size = asize;
+			new_ptr = ptr;
+		}
+
+		/* grow the buffer size by 1.5, until it's big enough
+		* to fit our target size */
+		while (new_size < target_size)
+			new_size = (new_size << 1) - (new_size >> 1);
+
+		/* round allocation up to multiple of 8 */
+		new_size = (new_size + 7) & ~7;
+
+		new_ptr = (char *)MeekUtils::MeekRealloc(new_ptr, new_size);
+
+		if (!new_ptr) {
+			if (mark_oom) {
+				if (ptr) free(ptr);
+				ptr = BufferCom;
+			}
+			return -1;
+		}
+
+		if (preserve_external && !asize && ptr != NULL && size > 0)
+			memcpy(new_ptr, ptr, min(size, new_size));
+
+		asize = new_size;
+		ptr = new_ptr;
+
+		/* truncate the existing buffer size if necessary */
+		if (size >= asize)
+			size = asize - 1;
+		ptr[size] = '\0';
+
+		return 0;
 	}
 
 	MEEK_INLINE(int) Buffer::joinPath(Buffer *buffer, const char *a, const char *b)
 	{
-		return joinBuffer(buffer, '/', a, b);
+		//return joinBuffer(buffer, '/', a, b);
 	}
 
 	int Buffer::joinBuffer(Buffer *buf, char separator, const char *str_a, const char *str_b)
@@ -64,7 +133,6 @@ namespace MeekCore
 
 		return 0;
 	}
-
 }
 
 

@@ -53,6 +53,8 @@ namespace MeekCore
 
 	int ObjectDatabase::write()
 	{
+		// Write to file on disk. 
+		return 0;
 	}
 
 }

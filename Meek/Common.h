@@ -2,6 +2,10 @@
 
 #pragma
 
+#if (defined(_WIN32)) && !defined(__CYGWIN__)
+#define MEEK_WIN32 1
+#endif
+
 // Declare a function as always inlined.
 #if defined(_MSC_VER)
 # define MEEK_INLINE(type) __inline type
@@ -25,10 +29,10 @@
 # include <direct.h>
 # include <winsock2.h>
 # include <windows.h>
-# include "win32/msvc-compat.h"
-# include "win32/mingw-compat.h"
-# include "win32/error.h"
-# include "win32/version.h"
+//# include "win32/msvc-compat.h"
+//# include "win32/mingw-compat.h"
+//# include "win32/error.h"
+//# include "win32/version.h"
 # ifdef MEEK_THREADS
 #	include "win32/pthread.h"
 # endif
@@ -40,7 +44,7 @@
 #	include <pthread.h>
 #	include <sched.h>
 # endif
-#define GIT_STDLIB_CALL
+#define MEEK_STDLIB_CALL
 
 #endif
 
@@ -56,23 +60,21 @@
 
 // Declare a public function exported for application use. 
 #if __GNUC__ >= 4
-# define GIT_EXTERN(type) extern \
+# define MEEK_EXTERN(type) extern \
 	__attribute__((visibility("default"))) \
 	type
 #elif defined(_MSC_VER)
-# define GIT_EXTERN(type) __declspec(dllexport) type
+# define MEEK_EXTERN(type) __declspec(dllexport) type
 #else
-# define GIT_EXTERN(type) extern type
+# define MEEK_EXTERN(type) extern type
 #endif
 
 // Declare a function's takes printf style arguments. */
 #ifdef __GNUC__
-# define GIT_FORMAT_PRINTF(a,b) __attribute__((format (printf, a, b)))
+# define MEEK_FORMAT_PRINTF(a,b) __attribute__((format (printf, a, b)))
 #else
-# define GIT_FORMAT_PRINTF(a,b) /* empty */
+# define MEEK_FORMAT_PRINTF(a,b) /* empty */
 #endif
 
-#if (defined(_WIN32)) && !defined(__CYGWIN__)
-#define GIT_WIN32 1
-#endif
+
 
