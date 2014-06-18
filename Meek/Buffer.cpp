@@ -92,7 +92,7 @@ namespace MeekCore
 		//return joinBuffer(buffer, '/', a, b);
 	}
 
-	int Buffer::joinBuffer(Buffer *buf, char separator, const char *str_a, const char *str_b)
+	int Buffer::joinBuffer(char separator, const char *str_a, const char *str_b)
 	{
 		size_t strlen_a = str_a ? strlen(str_a) : 0;
 		size_t strlen_b = strlen(str_b);
@@ -100,7 +100,7 @@ namespace MeekCore
 		size_t offset_a = -1;
 
 		/* not safe to have str_b point internally to the buffer */
-		assert(str_b < buf->ptr || str_b >= buf->ptr + buf->size);
+		assert(str_b < ptr || str_b >= ptr + size);
 
 		/* figure out if we need to insert a separator */
 		if (separator && strlen_a) {
@@ -110,26 +110,27 @@ namespace MeekCore
 		}
 
 		/* str_a could be part of the buffer */
-		if (str_a >= buf->ptr && str_a < buf->ptr + buf->size)
-			offset_a = str_a - buf->ptr;
+		if (str_a >= ptr && str_a < ptr + size)
+			offset_a = str_a - ptr;
 
-		/*if (git_buf_grow(buf, strlen_a + strlen_b + need_sep + 1) < 0)
-		return -1;
-		assert(buf->ptr);*/
+		if (growBuffer(strlen_a + strlen_b + need_sep + 1) < 0)
+			return -1;
+		assert(ptr);
 
 		/* fix up internal pointers */
 		if (offset_a >= 0)
-			str_a = buf->ptr + offset_a;
+			str_a = ptr + offset_a;
 
 		/* do the actual copying */
 		if (offset_a != 0 && str_a)
-			memmove(buf->ptr, str_a, strlen_a);
+			memmove(ptr, str_a, strlen_a);
 		if (need_sep)
-			buf->ptr[strlen_a] = separator;
-		memcpy(buf->ptr + strlen_a + need_sep, str_b, strlen_b);
+			ptr[strlen_a] = separator;
 
-		buf->size = strlen_a + strlen_b + need_sep;
-		buf->ptr[buf->size] = '\0';
+		memcpy(ptr + strlen_a + need_sep, str_b, strlen_b);
+
+		size = strlen_a + strlen_b + need_sep;
+		ptr[size] = '\0';
 
 		return 0;
 	}

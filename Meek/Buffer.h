@@ -3,9 +3,6 @@
 
 #include "Common.h"
 
-/* Used as default value for git_buf->ptr so that people can always
-* assume ptr is non-NULL and zero terminated even for new git_bufs.
-*/
 
 
 namespace MeekCore
@@ -20,7 +17,7 @@ namespace MeekCore
 		static MEEK_INLINE(int) joinPath(Buffer *buffer, const char *a, const char *b);
 
 	
-		int joinBuffer(Buffer *buf, char separator, const char *str_a, const char *str_b);
+		int joinBuffer(char separator, const char *str_a, const char *str_b);
 		void init(size_t initial_size);
 
 		int growBuffer(size_t target_size);
@@ -29,6 +26,8 @@ namespace MeekCore
 		char   *ptr;
 		size_t asize, size;
 
+		// Used as default value for git_buf->ptr so that people can always
+		// assume ptr is non-NULL and zero terminated even for new git_bufs.
 		char InitialBuffer[1];
 		char BufferCom[1];
 	};
