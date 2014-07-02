@@ -57,7 +57,5 @@ int main(int argc, char** argv)
 		cout << "commit" << endl;
 	}
 	
-
-
 	return 1;
 }

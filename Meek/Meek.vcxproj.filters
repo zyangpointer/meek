@@ -63,6 +63,12 @@
     <ClInclude Include="PathUtil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Posix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectID.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Blob.cpp">
@@ -96,6 +102,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FileUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectID.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

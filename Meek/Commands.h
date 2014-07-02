@@ -1,7 +1,11 @@
 #pragma once
 #include "ObjectDatabase.h"
+#include "Posix.h"
+#include "FileUtils.h"
 
 using namespace MeekCore;
+using namespace MeekUtils::PosixUtils;
+using namespace MeekUtils::FileUtils;
 
 namespace MeekCommands
 {
@@ -12,7 +16,13 @@ namespace MeekCommands
 
 	static int Command_Init(int argc, const char **argv, const char *prefix)
 	{
-		ObjectDatabase::initDirectory("D:/meektest", "", 0);
+		//ObjectDatabase::initDirectory("D:/meektest", "", 0);
+		FileUtils::mkfile("D:/gittest2/file.txt", "content");
+		FileUtils::mkfile("D:/gittest2/file1.txt", "Hello World");
+
+		// make file with oid
+
+
 		return 1;
 	}
 

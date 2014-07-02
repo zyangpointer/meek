@@ -5,6 +5,10 @@ namespace MeekCore
 {
 	Buffer::Buffer()
 	{
+		this->ptr = InitialBuffer;
+		asize = 0;
+		size = 0;
+
 	}
 	
 	Buffer::~Buffer()
